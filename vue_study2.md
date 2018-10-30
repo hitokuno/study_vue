@@ -245,7 +245,7 @@ new Vue({
 
 ![](https://i.imgur.com/tNAfDCg.png)
 
-`template`作成時の注意点として、ルート要素は単一でないといけない
+`template`作成時の注意点として、ルート要素は単一でないといけないという点です。
 
  ```js
  //spanが２個あるのでダメ
@@ -265,16 +265,16 @@ new Vue({
 
 ![親子関係](https://1.bp.blogspot.com/-3Sdz6RsRJ-M/WA6zeqjGszI/AAAAAAAAEZg/sHy0PjcR7_AziwqMh3f2wU09t4dSQj54gCLcB/s400/props-events.png)
 
-あとで、紹介しますが親コンポーネントから子コンポーネントへデータを渡すときはPropsを使い、子コンポーネントから親コンポーネントへデータを渡すときはEmitでイベントを発火させるます。   
+あとで紹介しますが親コンポーネントから子コンポーネントへデータを渡すときはPropsを使い、子コンポーネントから親コンポーネントへデータを渡すときはEmitでイベントを発火させるます。   
 図のように、これらの親子コンポーネント間でのデータの受け渡しは、 Pass    Props/Emit Eventsで行います。
 
-
-以下のコードでは`comp-child`コンポーネントはルートインスタンスの子コンポーネントになってます（ルートインスタンスが親的存在）。
 
 親から子への通信(`props down`というデータフロー)
 
 親コンポーネントのテンプレートで子コンポーネントを使用するとき、データを持たせることができます。
 また、データをバインディングして親コンポーネントのデータを子コンポーネントに渡すこともできます。
+
+以下のコードでは`comp-child`コンポーネントはルートインスタンスの子コンポーネントになってます（ルートインスタンスが親的存在）。
 
 
 [「jsfiddleで実行」](https://jsfiddle.net/kusaoisii/vc52rf74/8/)
@@ -317,9 +317,7 @@ new Vue({
 ```js
 Vue.component(`my-component`, {
   // `comp-child`は`my-component`の子コンポーネント
-  template: '<p>{{ val }}</p>',
-  // 受け取る属性名を指定
-  props: ['val']
+  template: '<p><comp-child></comp-child></p>',
 })
 ```
 
