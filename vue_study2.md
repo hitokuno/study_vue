@@ -117,7 +117,7 @@ new Vue({
 ```
 実行してみると、`Math.random()`は何度使用しても同じ数字が返されます。
 このキャッシュ機能によって、算出プロパティは元のデータに変更があるまで、何度使用しても関数内の処理は一度しか行われません。   
-そのため、複雑な処理に使われていることが多いです。
+そのため、複雑な処理に使われていることが多いらしいです。
 ```js
 new Vue({
   el: '#app',
@@ -163,6 +163,7 @@ new Vue({
   },
   filters: {
     localeNum: function (val) {
+      //`toLocaleString()`でカンマ区切りする。
       return val.toLocaleString()
     }
   }
@@ -265,8 +266,7 @@ new Vue({
 
 ![親子関係](https://1.bp.blogspot.com/-3Sdz6RsRJ-M/WA6zeqjGszI/AAAAAAAAEZg/sHy0PjcR7_AziwqMh3f2wU09t4dSQj54gCLcB/s400/props-events.png)
 
-あとで紹介しますが親コンポーネントから子コンポーネントへデータを渡すときはPropsを使い、子コンポーネントから親コンポーネントへデータを渡すときはEmitでイベントを発火させるます。   
-図のように、これらの親子コンポーネント間でのデータの受け渡しは、 Pass    Props/Emit Eventsで行います。
+あとで紹介しますが親コンポーネントから子コンポーネントへデータを渡すときはPropsを使い、子コンポーネントから親コンポーネントへデータを渡すときはEmitでイベントを発火させるます。  
 
 
 親から子への通信(`props down`というデータフロー)
@@ -327,13 +327,14 @@ Vue.component(`my-component`, {
 
 [「jsfiddleで実行」](https://jsfiddle.net/kusaoisii/jdur5pbn/2/)
 
-まず子のカスタムタグで,前紹介した`v-on`で`click`イベントをハンドルします。
+まず子のカスタムタグで,前紹介した`v-on`で`click`イベントをハンドルします。    
 
 ```html
 <comp-child v-on:childs-event="parentsMethod"></comp-child>
 ```
 
 子では`$emit`を使い、イベント`childs-event`を発火します。   
+親は子のイベントを検知して、登録していたハンドラが呼ばれる仕組みになっています。
 
 ```js
 Vue.component('comp-child', {
@@ -345,7 +346,6 @@ Vue.component('comp-child', {
     }
   }
 })
-
 new Vue({
   el: '#app',
   methods: {
@@ -366,6 +366,13 @@ new Vue({
 また、今回は親子関係があるコンポーネント間の通信についてのみ紹介しましたが、親子関係がないコンポーネント間や子子コンポーネント間のデータのやり取りをする方法もあります。
 
 よかったら調べてみてください。
+
+コンポーネントの学んだら、実際の設計について学びたくなると思いますが、まだ僕も設計したときないので、紹介できません`m(_ _)m`
+
+しょうた先輩が技術書店で買ってきてくれた、本を読むと設計について学べると思います。     
+(まだまだ僕が全部読めてないので、僕が持ってますが....)
+
+![](https://i.imgur.com/kvY7uAS.jpg)
 
 今日はこの辺で紹介を終わります。
 次回は同一ファイル(.vue)の紹介をしていきます。  
