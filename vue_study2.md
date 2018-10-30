@@ -236,7 +236,7 @@ new Vue({
 [「jsfiddleで実行」](https://jsfiddle.net/kusaoisii/ba59jq6o/6/)
 
 `template`として`Vue.component`に登録します。    
-以下では`my-component`がカスタムタグとして使用できます。
+以下では登録した`my-component`がカスタムタグとして使用できます。
 
 
 ```html
