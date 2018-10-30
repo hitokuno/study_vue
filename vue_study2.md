@@ -227,3 +227,133 @@ new Vue({
 そこで、コンポーネントを部品ごとに切り離して管理することで「再利用」が容易にできるというのもメリットの一つです。    
 
 それでは、実際に簡単なコンポーネントを作りましょう。  
+
+[「jsfiddleで実行」](https://jsfiddle.net/kusaoisii/ba59jq6o/6/)
+```html
+<my-component></my-component>
+```
+```js
+Vue.component('my-component', {
+  template: '<p>yooooooooo!</p>',
+})
+new Vue({
+  el: '#app'
+})
+
+```
+実行結果
+
+![](https://i.imgur.com/tNAfDCg.png)
+
+`template`作成時の注意点として、ルート要素は単一でないといけない
+
+ ```js
+ //spanが２個あるのでダメ
+ template:`<span>よー！</span><span>yooo</span>`
+ ```
+
+ 複数の要素を用いる場合は、全体を何かの要素で囲みます。
+ ```js
+ template:`<div><span>よー！</span><span>yooo</span></div>`
+ ```
+
+コンポーネント間の通信
+
+コンポーネント間の通信はちょっとわかりにくいので、軽く紹介していきます。
+
+
+
+以下のコードでは`comp-child`コンポーネントはルートインスタンスの子コンポーネントになってます（ルートインスタンスが親的存在）。
+
+親から子への通信
+
+親コンポーネントのテンプレートで子コンポーネントを使用するとき、データを持たせることができます。
+また、データをバインディングして親コンポーネントのデータを子コンポーネントに渡すこともできます。
+
+[「jsfiddleで実行」](https://jsfiddle.net/kusaoisii/vc52rf74/8/)
+
+
+```html
+<div id ="app">
+  <!-- val="" でデータを持たせる.-->
+ <comp-child val="これは子A"></comp-child>
+ <comp-child val="これは子B"></comp-child>
+ <!-- ":"は"v-bind"の省略 -->
+ <!-- "v-bindでデータを持たせる。"-->
+ <comp-child :val="valueA"></comp-child>
+ <comp-child :val="valueB"></comp-child>
+</div>
+```
+
+子コンポーネントでは`props`で親から`val`を受け取っています。
+
+```js
+//ここで言ってる子コンポーネント
+Vue.component('comp-child', {
+  // テンプレートで受け取ったvalを使用
+  template: '<p>{{ val }}</p>',
+  // 受け取る属性名を指定
+  props: ['val']
+})
+new Vue({
+  el: '#app',
+  data: {
+    valueA: 'これは子A',
+    valueB: 'これは子B'
+  }
+})
+```
+![実行結果](https://i.imgur.com/hqM5vla.png)
+
+また、`template`で他のコンポーネントを使用すると、親子関係になります。
+
+```js
+Vue.component(`my-component`, {
+  // `comp-child`は`my-component`の子コンポーネント
+  template: '<p>{{ val }}</p>',
+  // 受け取る属性名を指定
+  props: ['val']
+})
+```
+
+逆に子のイベントを親にキャッチさせることもできます。
+
+[「jsfiddleで実行」](https://jsfiddle.net/kusaoisii/jdur5pbn/2/)
+
+まず子のカスタムタグで,前紹介した`v-on`で`click`イベントをハンドルします。
+
+```html
+<comp-child v-on:childs-event="parentsMethod"></comp-child>
+```
+
+子では`$emit`を使い、イベント`childs-event`を発火します。   
+
+```js
+Vue.component('comp-child', {
+  template: '<button v-on:click="handleClick">イベント発火</button>',
+  methods: {
+    // ボタンのクリックイベントのハンドラでchilds-eventを発火する
+    handleClick: function () {
+      this.$emit('childs-event')
+    }
+  }
+})
+
+new Vue({
+  el: '#app',
+  methods: {
+    // childs-eventが発生した！
+    parentsMethod: function () {
+      alert('イベントをキャッチ！ ')
+    }
+  }
+})
+```
+ボタンをクリックすると、親コンポーネントで登録したハンドラが呼び出されていることがわかります    
+
+実行結果
+
+![実行結果](https://i.imgur.com/uxcvAJ9.png)
+
+今日はこの辺で紹介を終わります。
+次回は同一ファイル(.vue)の紹介をしていきます。  
