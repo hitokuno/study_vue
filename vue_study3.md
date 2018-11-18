@@ -15,6 +15,9 @@ Vue.jsの「トランジション」はcssトランジション/アニメーシ�
 実際に動かした方がわかりやすく、楽しいと思うので動かしてみましょう.
 
 トランジション効果を適用したい要素を`<trransition>`タグで囲むだけでトランジション用のクラスが使用できるようになります。
+
+[「jsfiddleで実行」](https://jsfiddle.net/kusaoisii/rpu97w2m/4/)
+
 ```html
 <div id="app">
   <p><button v-on:click="show=!show">切り替え</button></p>
@@ -48,9 +51,14 @@ cssファイルではトランジションクラスにスタイルを定義す�
 }
 ```
 
+![図](https://i.imgur.com/W8OLQ1B.png)
+
+
+
 ここで先ほどの謎のコード`.v-enter`や` .v-leave`などついて説明していきます。   
 動くものを定義するには最初の状態,そして動いた後の状態を定義すれば良さそうですよね。  
 先ほど動かしたコードを見ていきながら解説していきます。
+
 
 ```html
 <div id="app">
@@ -133,6 +141,8 @@ new Vue({
 
 以上のように、要素に付与される各トランジション名は、デフォルトで`v-`と言うプレフィックスがつきます。このプレフィックスは、`<transition>`タグに`name`属性で宣言することで任意に変更できます。
 
+
+
 ```html
 <!-- トランジションタグにname属性で`demo`をつける -->
 <transition name="demo">
@@ -158,3 +168,60 @@ new Vue({
   <div v-if="show">example</div>
 </transition>
 ```
+
+
+EnterとLeaveのスタイルを別々のスタイルとして定義することもできます.
+
+[「jsfiddleで実」](https://jsfiddle.net/kusaoisii/zxfsdgvm/17/)
+
+以下のコードでは表示するときは左から,消えるときは下へ移動します。
+
+
+```html
+<div id="app">
+  <p><button v-on:click="show=!show">切り替え</button></p>
+  <transition>
+    <div v-if="show">
+      <img src="https://i1.wp.com/xn--rckteqa2es85swxs3o5estk.jp/wp-content/uploads/2014/05/pokemon03.png?resize=554%2C545" width="80" height="80">
+    </div>
+  </transition>
+</div>
+```
+```js
+new Vue({
+  el: '#app',
+  data: {
+    show: true
+  }
+})
+```
+以下のcssでは`-active`で変化させる時間を宣言してます.
+`v-enter`と`v-leave-to`では`translateX`,`translateY`で座標指定をしています.
+
+流れとして
+
+Enter
+透明度０,座標(x=-10px,y=0)から → 透明度１,座標(x=0,y=0)  
+
+Leave
+透明度1,座標(x=0,y=0)から → 透明度１,座標(x=0,y=-10)
+
+```css
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 1s, transform 1s;
+}
+/* 表示するときは左から */
+.v-enter {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+/* 消えるときは下へ  */
+.v-leave-to {
+  opacity: 0;
+  /*Yはプラスで下*/
+  transform: translateY(10px);
+}
+```
+
+![図](https://i.imgur.com/teSsrpS.png)
