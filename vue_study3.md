@@ -53,6 +53,7 @@ cssファイルではトランジションクラスにスタイルを定義す�
   opacity: 0;
 }
 ```
+実行結果
 
 ![図](https://i.imgur.com/W8OLQ1B.png)
 
@@ -226,6 +227,7 @@ Leave
   transform: translateY(10px);
 }
 ```
+実行結果
 
 ![図](https://i.imgur.com/teSsrpS.png)
 
@@ -278,7 +280,7 @@ $ npm run dev
 ![](https://i.imgur.com/IHoDm1M.png?1)
 
 フォルダとファイルの構成   
-たくさんのファイルがありますが基本的にsrcファルだ以下のものしか使用、追加しません
+たくさんのファイルがありますが基本的にsrcフォルダ以下のものしか使用、追加しません
 
 [Vue CLIのフォルダ構成はこんな感じ](https://qiita.com/h_plum/items/86b8a6a86ac0fea8a4d1)
 
