@@ -243,4 +243,74 @@ SPAを構築するならルーティングが必要となる...
 
 #### Vue CLIとは
 
-Vue CLIとは,Vue.jsを使ったアプリケーション開発を効率よくしてくれます。
+Vue CLIとは,Vue.jsを使ったアプリケーション開発を効率よくしてくれます。  
+利用することで、ツールやライブラリといったアプリケーション開発に必要な開発環境を簡単に構築できます。  
+
+npmをまだダウンロードしてないかたは,[Node.js](https://nodejs.org/ja/download/)のサイトからダウンロードをお願いします。
+
+そして、vue-cliのインストールは以下のコマンドでできます。
+
+```
+$ npm install -g vue-cli
+```
+
+実際に適当にプロジェクトは作成してみる
+```
+$ vue init webpack my-project
+```
+
+いくつか質問形式で聞かれるので、1つだけ注意していただいて、他はとくに何もなければすべて Enter で進めてください。
+
+注意： ここではシンプルに説明するために vue-router を使いません
+なので、Install vue-router? (Y/n) n の設問だけは n にして進めてください。
+
+```
+$ cd my-project
+$ npm run dev
+```
+
+ブラウザで http://localhost:8080/ をアクセスするとサンプルが表示されます。
+
+![](https://i.imgur.com/IHoDm1M.png?1)
+
+#### 単一ファイルコンポーネントとは
+
+コンポーネント定義方法の１つで、コンポーネント構築をより快適にするための仕組みです。SFC(Single File Components)とも呼ばれています。
+コンポーネントの数が多くなると、１つのファイルだけでは管理できません。単一ファイルコンポーネントは、コンポーネントで使用する,HTML,Javascrpt,CSSを「.vue」拡張しのファイルにまとめて管理します。
+
+以下はSFCの例です。
+
+```html
+<template>
+  <div class="example">
+    <span class="title">{{ text }}</span>
+  </div>
+</template>
+
+
+<script>
+  export default {
+    name: 'Example',
+    data() {
+      return {
+        text: 'example'
+      }
+    }
+  }
+</script>
+
+<!-- scoped CSS -->
+
+<style scoped>
+  .title {
+    color: #ffbb00;
+  }
+</style>
+```
+
+このファイルの`<template>`タグは通常のコンポーネントで定義した`template`オプションを抜き出したもの、`<script>`タグはそれを除いたものと同じです。     
+このようにHTML,CSS,JSが１つにまとめられているので、どこで使われているか探し出すのに困ることはありません。テンプレートとして、一つのファイルにまとまっていた方が整理もしやすいですよね。
+
+
+
+今回はここで終わりです.来週は状態管理をしてくれる`Vuex`,SPAの構築に使われる`Vue Router`について紹介していきます。
