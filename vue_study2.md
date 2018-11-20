@@ -166,7 +166,7 @@ new Vue({
     price: 19800
   },
   filters: {
-    localeNum: function (val) {
+    converNum: function (val) {
       //`toLocaleString()`でカンマ区切りする。
       return val.toLocaleString()
     }
